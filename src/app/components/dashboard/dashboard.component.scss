@@ -1,0 +1,62 @@
+.components-container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.components-container > * {
+  flex: 1;
+}
+
+/* Style des composants */
+.component {
+  background-color: #4CAF50;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 18px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.chart-container{
+  background: var(--surface-card);
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  border: 1px solid #e0e0e0;
+}
+
+.chart-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #787474;
+  margin: 0;
+}
+
+::ng-deep .p-dropdown {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .p-dropdown .p-dropdown-label {
+  font-size: 12px;
+}
+
+::ng-deep .p-dropdown-item {
+  font-size: 12px;
+  padding: 5px;
+}
+

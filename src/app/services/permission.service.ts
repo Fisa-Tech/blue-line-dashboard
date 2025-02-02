@@ -11,30 +11,36 @@ class PermissionService {
               private auth: AuthService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.auth.getToken() != null) {
-      return true;
+    const token = this.auth.getToken();
+
+    if (token) {
+      const decodedToken = this.decodeToken(token);
+      const expirationDate = decodedToken.exp * 1000;
+      const now = new Date().getTime();
+
+      if (expirationDate > now) {
+        return true;
+      } else {
+        this.router.navigateByUrl('auth/login');
+        return false;
+      }
     } else {
       this.router.navigateByUrl('auth/login');
       return false;
     }
   }
 
-  canActivateActive(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const activeMember = sessionStorage.getItem('currentMemberType') === 'Actif';
-    if (this.auth.getToken() != null && activeMember) {
-      return true;
-    } else {
-      this.router.navigateByUrl('material-list');
-      return false;
+  decodeToken(token: string): any {
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      throw new Error('Invalid token');
     }
+    const decoded = atob(parts[1]);
+    return JSON.parse(decoded);
   }
 
 }
 
 export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
   return inject(PermissionService).canActivate(next, state);
-}
-
-export const AuthGuardActive: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
-  return inject(PermissionService).canActivateActive(next, state);
 }

@@ -4,13 +4,15 @@ import {ConnexionComponent} from "./components/connexion/connexion.component";
 import {MemberListComponent} from "./components/member/member-list/member-list.component";
 import {GroupListComponent} from "./components/group/group-list/group-list.component";
 import {MaterialListComponent} from "./components/material/material-list/material-list.component";
-import {AuthGuard, AuthGuardActive} from "./services/permission.service";
+import {AuthGuard} from "./services/permission.service";
+import {DashboardComponent} from "./components/dashboard/dashboard.component";
 
 export const routes: Routes = [
-  {path: '', component: MaterialListComponent, canActivate: [AuthGuard]},
-  {path: 'member-list', component: MemberListComponent, canActivate: [AuthGuardActive]},
-  {path: 'group-list', component: GroupListComponent, canActivate: [AuthGuardActive]},
+  {path: '', component: DashboardComponent, canActivate: [AuthGuard]},
+  {path: 'member-list', component: MemberListComponent, canActivate: [AuthGuard]},
+  {path: 'group-list', component: GroupListComponent, canActivate: [AuthGuard]},
   {path: 'material-list', component: MaterialListComponent, canActivate: [AuthGuard]},
+  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: MyProfileComponent, canActivate: [AuthGuard]},
   {path: 'auth/login', component: ConnexionComponent},
 ];

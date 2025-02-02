@@ -3,7 +3,7 @@
 @import 'primeng/resources/primeng.min.css';
 @import "primeng/resources/primeng.css";
 
-.card {
+.page {
   background: var(--surface-card);
   margin-left: 1rem;
   margin-right: 1rem;
@@ -22,3 +22,11 @@
 .input {
   width: 20rem;
 }
+
+.card{
+  background: var(--surface-card);
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+

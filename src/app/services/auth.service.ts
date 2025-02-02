@@ -13,11 +13,8 @@ export class AuthService {
   login(email: string, password: string): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
       this.memberService.login(email, password).subscribe(response => {
-        if (response.membreId !== 'null') {
-          sessionStorage.setItem('currentUserId', response.membreId);
-          sessionStorage.setItem('currentGroupId', response.groupeId);
-          sessionStorage.setItem('currentMemberType', response.typeMembre);
-          sessionStorage.setItem('currentMemberName', response.membreName);
+        if (response) {
+          sessionStorage.setItem('userToken', response);
           resolve(true);
         } else {
           resolve(false);
@@ -29,13 +26,10 @@ export class AuthService {
   }
 
   logOut() {
-    sessionStorage.removeItem('currentUserId');
-    sessionStorage.removeItem('currentGroupId');
-    sessionStorage.removeItem('currentMemberType');
-    sessionStorage.removeItem('currentMemberName');
+    sessionStorage.removeItem('userToken');
   }
 
   getToken(): string | null {
-    return sessionStorage.getItem('currentUserId');
+    return sessionStorage.getItem('userToken');
   }
 }

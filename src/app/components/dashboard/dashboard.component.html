@@ -1,0 +1,28 @@
+<app-menu [tabSelected]="0"></app-menu>
+<div class="page">
+
+  <div class="components-container">
+    <div class="chart-container">
+      <div class="chart-header">
+        <label class="chart-title">NOUVEAUX UTILISATEURS</label>
+        <p-dropdown
+          size="extra-small"
+          [options]="periodOptions"
+          [(ngModel)]="selectedPeriod"
+          optionLabel="name"
+          [scrollHeight]="'100px'"
+        />
+      </div>
+      <p-chart type="line" [data]="data" [options]="options" [height]="'100px'" [width]="'100%'" />
+    </div>
+    <div class="chart-container">
+      <p-chart type="line" [data]="data" [options]="options" [height]="'100px'" [width]="'100%'" />
+    </div>
+    <div class="chart-container">
+      <p-chart type="line" [data]="data" [options]="options" [height]="'100px'" [width]="'100%'" />
+    </div>
+    <div class="chart-container">
+      <p-chart type="line" [data]="data" [options]="options" [height]="'100px'" [width]="'100%'" />
+    </div>
+  </div>
+</div>

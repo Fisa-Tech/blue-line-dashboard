@@ -1,7 +1,7 @@
 export const ApiUrls = {
-  members: {
+  users: {
     getAll: '/membres/all',
-    login: '/membres/login',
+    login: '/users/login',
     inscription: '/membres/inscription',
     getOne: (id: string) => `/membres/${id}`
   },

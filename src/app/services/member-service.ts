@@ -17,22 +17,22 @@ export class MemberService {
               private utils: UtilsService) { }
 
   getMembers(groupId: string): Observable<any> {
-    const getAllMembersUrl = environment.apiHost + ApiUrls.members.getAll;
+    const getAllMembersUrl = environment.apiHost + ApiUrls.users.getAll;
     let params = new HttpParams().set('groupId', groupId);
     return this.http.get<any>(getAllMembersUrl, {params: params});
   }
 
   login(email: string, password: string): Observable<any> {
-    const loginUrl = environment.apiHost + ApiUrls.members.login;
+    const loginUrl = environment.apiHost + ApiUrls.users.login;
     const body = JSON.stringify({email: email, password: password});
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.http.post(loginUrl, body, {headers: headers});
+    return this.http.post(loginUrl, body, {headers: headers, responseType: 'text'});
   }
 
   signIn(member: Member): Observable<any> {
-    const signInUrl = environment.apiHost + ApiUrls.members.inscription;
+    const signInUrl = environment.apiHost + ApiUrls.users.inscription;
     const body = JSON.stringify({
       id: this.utils.generateId(12),
       nom: member.name,
