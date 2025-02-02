@@ -1,0 +1,13 @@
+:host ::ng-deep {
+
+  .p-button-label {
+    color: black;
+    font-size: 1.5rem;
+  }
+
+  .p-button {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+  }
+}

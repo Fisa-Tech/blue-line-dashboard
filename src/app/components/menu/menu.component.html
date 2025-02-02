@@ -1,0 +1,20 @@
+<div class="card">
+  <div style="margin-right: 2rem">
+    <app-menu-button></app-menu-button>
+  </div>
+  <div style="margin-left: 2rem">
+    <p-button #profileMenuButton icon="pi pi-bars" [rounded]="true"
+              styleClass="mr-2 rounded-button p-button-icon-label custom-button menu-button"
+              (onClick)="onProfileMenuButtonClick()"></p-button>
+  </div>
+</div>
+<div class="tab-menu-container" *ngIf="showTabs">
+  <p-tabMenu [model]="tabs" [activeItem]="activeTab" (activeItemChange)="onActiveItemChange($event)"></p-tabMenu>
+</div>
+
+
+<div *ngIf="showProfileMenu" class="top-right">
+  <p-panelMenu #profileMenu [model]="profileMenuItems"></p-panelMenu>
+</div>
+
+

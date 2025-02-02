@@ -1,0 +1,24 @@
+<div class="card flex justify-content-center" style="margin-top: 0.5rem">
+  <form [formGroup]="addMaterialForm" (ngSubmit)="submit()">
+    <span class="p-float-label custom-margin">
+      <input pInputText id="serialField" required formControlName="serial">
+      <label for="serialField">Numéro de série</label>
+    </span>
+    <span class="p-float-label custom-margin">
+      <input pInputText id="brandField" required formControlName="brand">
+      <label for="brandField">Marque</label>
+    </span>
+    <span class="p-float-label custom-margin">
+      <input pInputText id="modelField" required formControlName="model">
+      <label for="modelField">Modèle</label>
+    </span>
+    <span class="p-float-label custom-margin">
+      <input pInputText id="typeField" required formControlName="type">
+      <label for="typeField">Type</label>
+    </span>
+    <span class="p-float-label custom-margin">
+      <p-inputNumber  id="priceField" mode="currency" currency="EUR" locale="fr-FR" formControlName="price"></p-inputNumber>
+      <label for="priceField">Price</label>
+    </span>
+  </form>
+</div>

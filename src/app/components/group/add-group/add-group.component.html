@@ -1,0 +1,16 @@
+<div class="card flex justify-content-center" style="margin-top: 0.5rem">
+  <form [formGroup]="addGroupForm" (ngSubmit)="submit()">
+    <span class="p-float-label custom-margin">
+      <input pInputText id="nameField" required formControlName="name">
+      <label for="nameField">Nom</label>
+    </span>
+    <span class="p-float-label custom-margin">
+      <p-inputNumber id="cpField" formControlName="cp"></p-inputNumber>
+      <label for="cpField">Code Postal</label>
+    </span>
+    <span class="p-float-label custom-margin">
+      <input pInputText id="cityField" required formControlName="city">
+      <label for="cityField">Ville</label>
+    </span>
+  </form>
+</div>

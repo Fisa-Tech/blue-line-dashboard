@@ -1,0 +1,21 @@
+:host {
+  ::ng-deep .toolTipButton{
+    border: 0;
+    background: none;
+    color: #3B82F6;
+  }
+}
+
+.margin {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.text-danger {
+  margin-top: 2rem;
+  color: red;
+  font-size: 0.875rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+}

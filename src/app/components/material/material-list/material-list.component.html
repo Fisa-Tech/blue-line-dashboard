@@ -1,0 +1,158 @@
+<app-menu [tabSelected]="0"></app-menu>
+<div class="card">
+  <p-toast></p-toast>
+  <p-table
+    #dt
+    [value]="materials"
+    selectionMode="multiple"
+    [(selection)]="selectedMaterialToOrder"
+    [rowHover]="true"
+    [rows]="10"
+    [columns]="columns"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading"
+    [paginator]="true"
+    currentPageReportTemplate="Produits {first} à {last} sur {totalRecords}"
+    [filterDelay]="0"
+    [globalFilterFields]="['serial', 'brand', 'model', 'type', 'price']"
+    [scrollable]="true"
+    scrollHeight="62vh"
+  >
+
+    <ng-template pTemplate="caption">
+      <div class="flex" style="align-items: center">
+        <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input
+            class="p-inputtext p-component p-element"
+            type="text"
+            (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+            placeholder="Recherche par mot clé"
+          />
+          <span style="margin-left: 3rem;">
+            <button (click)="openShopDialog()"
+                    [ngStyle]="{ 'cursor': selectedMaterialToOrder.length > 0 ? 'pointer' : 'default',
+                    'background': 'none', 'border': 'none', 'vertical-align': 'middle' }">
+              <span class="pi pi-shopping-cart" style="font-size: 2rem" pBadge
+                    [value]="selectedMaterialToOrder.length.toString()"></span>
+            </button>
+        </span>
+          <span style="margin-left: 3rem" *ngIf="activeMember">
+            <p-button icon="pi pi-plus" (click)="openAddDialog()" ></p-button>
+          </span>
+        </span>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let col of columns" [pSortableColumn]="col.pSortableColumn" pFrozenColumn [frozen]="col.frozen">
+          <div class="flex justify-content-between align-items-center">
+            {{col.header}}
+            <p-sortIcon *ngIf="col.header != ''" [field]="col.pSortableColumn"></p-sortIcon>
+          </div>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-material>
+      <tr class="p-selectable-row" [pSelectableRow]="material">
+        <td pFrozenColumn>
+          <span class="p-column-title">Numéro de série</span>
+          {{ material.serial }}
+        </td>
+        <td>
+          <span class="p-column-title">Marque</span>
+          {{ material.brand }}
+        </td>
+        <td pFrozenColumn>
+          <span class="p-column-title">Modèle</span>
+          {{ material.model }}
+        </td>
+        <td>
+          <span class="p-column-title">Type</span>
+          {{ material.type }}
+        </td>
+        <td pFrozenColumn>
+          <span class="p-column-title">Prix</span>
+          {{ material.price }} €
+        </td>
+        <td *ngIf="activeMember">
+          <div class="button-container">
+            <p-button pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" [rounded]="true"
+                      (click)="openEditionDialog(material)"></p-button>
+            <p-button  icon="pi pi-trash" class="p-button-rounded p-button-warning mr-2" [rounded]="true"
+                       (click)="openDeletionDialog(material)"></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="8">Aucun produit trouvé dans ce groupe</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog header="Header" [(visible)]="isShopDialogOpen" [modal]="true" [style]="{ width: '50rem' }"
+          [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false">
+  <ng-template pTemplate="header">
+    <h3>Mon panier</h3>
+  </ng-template>
+  <div class="center-content">
+    <app-order-material #orderMaterialComponent (eventOrdered)="validOrder()" [products]="selectedMaterialToOrder" [totalPrice]="computeTotalPrice()"></app-order-material>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-times" (click)="closeShopDialog()" label="Annuler" pAutoFocus [autofocus]="true"></p-button>
+    <p-button icon="pi pi-cart-plus" (click)="submitOrder()" label="Commander" pAutoFocus type="submit"></p-button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Header" [(visible)]="isAddDialogOpen" [modal]="true" [style]="{ width: '50rem' }"
+          [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false">
+  <ng-template pTemplate="header">
+    <h3>Ajout de matériel</h3>
+  </ng-template>
+  <div class="center-content">
+    <app-add-material (eventMaterialAdded)="validMaterial($event)" #addMaterialForm></app-add-material>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-times" (click)="closeAddDialog()" label="Annuler" pAutoFocus [autofocus]="true"></p-button>
+    <p-button icon="pi pi-user-plus" (click)="submitCreationForm()" label="Enregistrer" pAutoFocus type="submit"
+              [disabled]="!addMaterialForm.addMaterialForm.valid"></p-button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Header" [(visible)]="isEditionDialogOpen" [modal]="true" [style]="{ width: '50rem' }"
+          [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false">
+  <ng-template pTemplate="header">
+    <h3>Modification</h3>
+  </ng-template>
+  <div class="center-content">
+    <app-edit-material [material]="selectedMaterial"></app-edit-material>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-times" (click)="closeEditionDialog()" label="Annuler" pAutoFocus [autofocus]="true"></p-button>
+    <p-button icon="pi pi-pencil" label="Modifier" pAutoFocus type="submit"
+              [disabled]="true"></p-button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Header" [(visible)]="isDeletionDialogOpen" [modal]="true" [style]="{ width: '50rem' }"
+          [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false">
+  <ng-template pTemplate="header">
+    <h3>Suppression</h3>
+  </ng-template>
+  <div class="center-content">
+    <app-remove-material [material]="selectedMaterial"></app-remove-material>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-times" (click)="closeDeletionDialog()" label="Annuler" pAutoFocus [autofocus]="true"></p-button>
+    <p-button icon="pi pi-trash" label="Supprimer" pAutoFocus type="submit"
+              [disabled]="true"></p-button>
+  </ng-template>
+</p-dialog>
+

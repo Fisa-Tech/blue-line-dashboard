@@ -1,0 +1,93 @@
+:host ::ng-deep {
+
+  p-table {
+    .ui-paginator {
+      p-dropdown {
+        display: inline-block;
+      }
+    }
+  }
+
+  .margin {
+    margin: 0.5rem;
+  }
+
+  .p-datatable .p-datatable-tbody > tr > td {
+    /*padding: 0.2rem 0.2rem;*/
+  }
+
+
+    .p-paginator {
+    background: #ffffff;
+    color: #6b7280;
+    border: solid #f3f4f6;
+    border-width: 0;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+  }
+
+  .p-paginator .p-paginator-current {
+    background-color: transparent;
+    border: 0 none;
+    color: #6b7280;
+    min-width: 3rem;
+    height: 3rem;
+    margin: 0.143rem;
+    padding: 0 0.5rem;
+  }
+
+  .p-paginator .p-paginator-first, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-next, .p-paginator .p-paginator-last {
+    background-color: transparent;
+    border: 0 none;
+    color: #6b7280;
+    min-width: 3rem;
+    height: 3rem;
+    margin: 0.143rem;
+    transition: box-shadow 0.2s;
+    border-radius: 50%;
+  }
+
+  .p-paginator .p-paginator-first {
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+  }
+
+  .p-progressbar {
+    height: .5rem;
+    background-color: #D8DADC;
+
+    .p-progressbar-value {
+      background-color: #607D8B;
+    }
+  }
+
+  .p-datatable-header {
+    background: white;
+    border: none;
+  }
+
+  .p-input-icon-left, .p-input-icon-right {
+    position: relative;
+    display: inline-block;
+  }
+
+  .p-input-icon-left > .p-inputtext {
+    padding-left: 2.5rem;
+  }
+}
+
+.button-container {
+  display: flex;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.flex {
+  display: flex !important;
+}
+
+.ml-auto {
+  margin-left: auto !important;
+}

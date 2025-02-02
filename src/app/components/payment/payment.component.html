@@ -1,0 +1,61 @@
+<div class="card flex justify-content-center" style="margin-top: 0.5rem">
+  <form [formGroup]="inscriptionForm" (ngSubmit)="submit()">
+    <span class="p-float-label custom-margin">
+      <p-selectButton [options]="statusOptions" formControlName="memberType" optionLabel="label" optionValue="value"></p-selectButton>
+    </span>
+    <span class="p-float-label custom-margin">
+      <input pInputText id="lastnameField" style="width: 22rem" required formControlName="lastName">
+      <label for="lastnameField">Nom</label>
+    </span>
+    <span class="p-float-label custom-margin">
+      <input pInputText id="firstnameField" style="width: 22rem" required formControlName="firstName">
+      <label for="firstnameField">Prénom</label>
+    </span>
+    <span class="p-float-label custom-margin">
+      <input pInputText id="emailField" style="width: 22rem" required formControlName="email">
+      <label for="emailField">Email</label>
+    </span>
+    <span class="p-float-label custom-margin" *ngIf="userGroupId == null">
+    <p-dropdown [required]="true" id="groupField" formControlName="group" [options]="groupNames" [editable]="true" ></p-dropdown>
+      <label for="groupField">Groupe</label>
+    </span>
+    <div *ngIf="missGroup && userGroupId == null" class="text-danger">
+      Sélectionne un groupe
+    </div>
+    <div formGroupName="address">
+      <h4>Adresse</h4>
+      <span class="p-float-label custom-margin">
+        <p-inputNumber  id="numberField"  formControlName="number"></p-inputNumber>
+        <label for="numberField">Numéro</label>
+      </span>
+      <span class="p-float-label custom-margin">
+        <input pInputText id="streetField" style="width: 22rem" required formControlName="street">
+        <label for="streetField">Rue</label>
+      </span>
+      <span class="p-float-label custom-margin">
+          <p-inputNumber  id="cpField" formControlName="cp"></p-inputNumber>
+        <label for="cpField">Code postal</label>
+      </span>
+      <span class="p-float-label custom-margin">
+        <input pInputText id="cityField" style="width: 22rem" required formControlName="city">
+        <label for="cityField">Ville</label>
+      </span>
+    </div>
+    <span class="p-float-label custom-margin">
+      <p-password name="passwordField" id="passwordField" weakLabel="Faible" mediumLabel="Moyen"
+                  strongLabel="Sécurisé" promptLabel="Choisissez un mot de passe" [toggleMask]="true" formControlName="password">
+        <ng-template pTemplate="header"> </ng-template>
+      </p-password>
+      <label for="passwordField">Mot de passe</label>
+      <p-button type="button" styleClass="toolTipButton" icon="pi pi-info-circle" [escape]="false" pTooltip="
+      Mot de passe sécurisé:
+      <ul>
+        <li>Au moins une minuscule</li>
+        <li>Au moins une majuscule</li>
+        <li>Au moins un chiffre</li>
+        <li>8 caractères minimum</li>
+      </ul>
+  "></p-button>
+    </span>
+  </form>
+</div>
