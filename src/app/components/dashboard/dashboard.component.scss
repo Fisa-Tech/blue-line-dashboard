@@ -25,11 +25,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
 }
 
 .chart-container{
-  background: var(--surface-card);
+  background: #F6F8FC;
   padding: 1rem;
   border-radius: 4px;
   margin-bottom: 1rem;
@@ -46,9 +45,15 @@
   margin: 0;
 }
 
+.chart-value {
+  font-size: 20px;
+  font-weight: 800;
+}
+
 ::ng-deep .p-dropdown {
   border: none !important;
   box-shadow: none !important;
+  background: #F6F8FC;
 }
 
 ::ng-deep .p-dropdown .p-dropdown-label {

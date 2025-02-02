@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, LOCALE_ID, OnInit} from '@angular/core';
 import {ChartModule} from "primeng/chart";
 import {MenuComponent} from "../menu/menu.component";
 import {DropdownModule} from "primeng/dropdown";
 import {FormsModule} from "@angular/forms";
+import {StatsService} from "../../services/stats.service";
+import {DatePipe} from "@angular/common";
 
 interface Period {
   name: string;
@@ -19,7 +21,8 @@ interface Period {
     FormsModule
   ],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrl: './dashboard.component.scss',
+  providers: [DatePipe]
 })
 export class DashboardComponent implements OnInit {
 
@@ -28,6 +31,10 @@ export class DashboardComponent implements OnInit {
   periodOptions: Period[] | undefined;
 
   selectedPeriod: Period = { name: '7 jours', value: '7d' };
+  nbTotalUsers: string | undefined;
+
+  constructor(private statsService: StatsService,
+              private datePipe: DatePipe) { }
 
   ngOnInit() {
     const documentStyle = getComputedStyle(document.documentElement);
@@ -41,19 +48,30 @@ export class DashboardComponent implements OnInit {
       { name: '3 mois', value: '3m' },
     ];
 
-    this.data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'Third Dataset',
-          data: [12, 51, 62, 33, 21, 62, 45],
-          fill: true,
-          borderColor: "#3170F9",
-          tension: 0.4,
-          backgroundColor: "#809ee0"
-        }
-      ]
-    };
+    this.statsService.getActiveUsers(this.statsService.computeStartDate(this.selectedPeriod.name),
+      new Date().toISOString().split("T")[0],
+      'DAY',
+      null,
+      null,
+      null
+      ).subscribe((stats) => {
+        this.nbTotalUsers = stats.totalActiveUsers.toString();
+      this.data = {
+        labels: Object.keys(stats.activeUsersPerPeriod).map(label => {
+          const formattedDate = this.datePipe.transform(label, 'dd MMM yyyy');
+          return formattedDate ? formattedDate : label;
+        }),
+        datasets: [
+          {
+            data: Object.values(stats.activeUsersPerPeriod),
+            fill: true,
+            borderColor: "#3170F9",
+            tension: 0.4,
+            backgroundColor: "#809ee0"
+          }
+        ]
+      };
+    });
 
     this.options = {
       responsive: true,

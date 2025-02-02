@@ -16,5 +16,8 @@ export const ApiUrls = {
   },
   command: {
     create: '/commandes/passerCommande'
+  },
+  stats: {
+    getActiveUsers: '/stats/activeUsers'
   }
 }
