@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {MemberService} from "./member-service";
+import {UserService} from "./user-service";
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +7,7 @@ import {MemberService} from "./member-service";
 export class AuthService {
   private token!: string;
 
-  constructor(private memberService: MemberService) {
+  constructor(private memberService: UserService) {
   }
 
   login(email: string, password: string): Promise<boolean> {
@@ -27,9 +27,5 @@ export class AuthService {
 
   logOut() {
     sessionStorage.removeItem('userToken');
-  }
-
-  getToken(): string | null {
-    return sessionStorage.getItem('userToken');
   }
 }

@@ -14,4 +14,8 @@ export class UtilsService {
     }
     return result;
   }
+
+  getToken(): string | null {
+    return sessionStorage.getItem('userToken');
+  }
 }

@@ -3,7 +3,7 @@ import {Material} from "../../../models/material.model";
 import {NgForOf} from "@angular/common";
 import {MaterialService} from "../../../services/material.service";
 import {Member} from "../../../models/member.model";
-import {MemberService} from "../../../services/member-service";
+import {UserService} from "../../../services/user-service";
 
 @Component({
   selector: 'app-order-material',
@@ -22,12 +22,12 @@ export class OrderMaterialComponent implements OnInit{
   activeMember!: Member;
 
   constructor(private materialService: MaterialService,
-              private memberService: MemberService) {
+              private memberService: UserService) {
   }
 
   public ngOnInit() {
     const groupId = sessionStorage.getItem('currentGroupId');
-    if(groupId != null) {
+    /*if(groupId != null) {
       this.memberService.getMembers(groupId).subscribe((members) => {
         for(let rawMember of members){
           const member: Member = this.memberService.parseMember(rawMember);
@@ -37,7 +37,7 @@ export class OrderMaterialComponent implements OnInit{
           }
         }
       });
-    }
+    }*/
   }
 
   submitOrder() {

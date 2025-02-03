@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ChartModule} from "primeng/chart";
 import {MenuComponent} from "../menu/menu.component";
 import {DropdownModule} from "primeng/dropdown";
@@ -10,6 +10,7 @@ import {
   ChallengeParticipationChartComponent
 } from "./challenge-participation-chart/challenge-participation-chart.component";
 import {EventParticipationChartComponent} from "./event-participation-chart/event-participation-chart.component";
+import {UserService} from "../../services/user-service";
 
 export interface Period {
   name: string;
@@ -33,14 +34,30 @@ export interface Period {
   styleUrl: './dashboard.component.scss',
   providers: [DatePipe]
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
   nbActions = 0;
   nbUsers = 0;
   challengeAverageParticipants = 0;
   eventAverageParticipants = 0;
 
+  constructor(private userService: UserService) { }
+
+  ngOnInit(): void {
+    this.userService.getUsers().subscribe(users => {
+      this.nbUsers = users.length;
+    });
+  }
+
   handleNbActionsComputed(nbActions: number) {
     this.nbActions = nbActions;
+  }
+
+  handleChallengeParticipationsComputed(nbParticipations: number) {
+    this.challengeAverageParticipants = nbParticipations;
+  }
+
+  handleEventParticipationsComputed(nbParticipations: number) {
+    this.eventAverageParticipants = nbParticipations;
   }
 }

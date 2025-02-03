@@ -1,6 +1,6 @@
 export const ApiUrls = {
   users: {
-    getAll: '/membres/all',
+    getAll: '/users',
     login: '/users/login',
     inscription: '/membres/inscription',
     getOne: (id: string) => `/membres/${id}`

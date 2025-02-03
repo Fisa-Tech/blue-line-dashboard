@@ -1,25 +1,32 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from "../../environments/environment";
 import {ApiUrls} from "../shared/api-url";
 import {Member} from "../models/member.model";
-import {AddressService} from "./address-service";
 import {UtilsService} from "./utils-service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class MemberService {
+export class UserService {
 
   constructor(private http: HttpClient,
-              private addressService: AddressService,
               private utils: UtilsService) { }
 
-  getMembers(groupId: string): Observable<any> {
+  /*getMembers(groupId: string): Observable<any> {
     const getAllMembersUrl = environment.apiHost + ApiUrls.users.getAll;
     let params = new HttpParams().set('groupId', groupId);
-    return this.http.get<any>(getAllMembersUrl, {params: params});
+    return this.
+    http.get<any>(getAllMembersUrl, {params: params});
+  }*/
+
+  getUsers(): Observable<any> {
+    const token = this.utils.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    const getAllUsersUrl = environment.apiHost + ApiUrls.users.getAll;
+    return this.http.get<any>(getAllUsersUrl, {headers: headers});
   }
 
   login(email: string, password: string): Observable<any> {
@@ -29,25 +36,6 @@ export class MemberService {
       'Content-Type': 'application/json'
     });
     return this.http.post(loginUrl, body, {headers: headers, responseType: 'text'});
-  }
-
-  signIn(member: Member): Observable<any> {
-    const signInUrl = environment.apiHost + ApiUrls.users.inscription;
-    const body = JSON.stringify({
-      id: this.utils.generateId(12),
-      nom: member.name,
-      prenom: member.firstname,
-      adresse: this.addressService.addressToString(member.address),
-      typeMembre: member.memberType,
-      idGroupe: member.groupId,
-      idCommande: '',
-      email: member.email,
-      password: member.password
-    });
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-    return this.http.post(signInUrl, body, {headers: headers});
   }
 
   parseMember(rawMember: any): Member {

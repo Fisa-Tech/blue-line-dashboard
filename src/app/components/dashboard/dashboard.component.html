@@ -9,10 +9,10 @@
       <app-active-users-chart (nbActions)="handleNbActionsComputed($event)"></app-active-users-chart>
     </div>
     <div class="chart-container">
-      <app-challenge-participation-chart></app-challenge-participation-chart>
+      <app-challenge-participation-chart (nbParticipantsByChallenge)="handleChallengeParticipationsComputed($event)"></app-challenge-participation-chart>
     </div>
     <div class="chart-container">
-      <app-event-participation-chart></app-event-participation-chart>
+      <app-event-participation-chart (nbParticipantsByEvent)="handleEventParticipationsComputed($event)"></app-event-participation-chart>
     </div>
   </div>
   <div class="components-container">
@@ -24,19 +24,19 @@
     </div>
     <div class="chart-container">
       <span class="icon-label">
-        <i class="pi pi-users" style="font-size: 1.5rem; color: #3170F9"></i>
+        <i class="pi pi-mobile" style="font-size: 1.5rem; color: #11B5AE"></i>
         <span class="important-text">{{ nbActions }} interactions</span>
       </span>
     </div>
     <div class="chart-container">
       <span class="icon-label">
-        <i class="pi pi-users" style="font-size: 1.5rem; color: #3170F9"></i>
+        <i class="pi pi-flag" style="font-size: 1.5rem"></i>
         <span class="important-text">{{ challengeAverageParticipants }} particpants / défi</span>
       </span>
     </div>
     <div class="chart-container">
       <span class="icon-label">
-        <i class="pi pi-users" style="font-size: 1.5rem; color: #3170F9"></i>
+        <i class="pi pi-calendar" style="font-size: 1.5rem; color: #3170F9"></i>
         <span class="important-text">{{ eventAverageParticipants }} participants / événement</span>
       </span>
     </div>

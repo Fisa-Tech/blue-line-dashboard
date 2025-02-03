@@ -13,7 +13,7 @@ import {TooltipModule} from "primeng/tooltip";
 import {Member} from "../../models/member.model";
 import {Group} from "../../models/group.model";
 import {regexValidator} from "../../services/regexValidator.service";
-import {MemberService} from "../../services/member-service";
+import {UserService} from "../../services/user-service";
 import {GroupService} from "../../services/group-service";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
@@ -67,7 +67,7 @@ export class PaymentComponent {
 
 
   constructor(private fb: FormBuilder,
-              private memberService: MemberService,
+              private memberService: UserService,
               private groupService: GroupService,
               private auth: AuthService,
               private router: Router) { };

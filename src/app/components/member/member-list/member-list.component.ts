@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MemberService} from "../../../services/member-service";
+import {UserService} from "../../../services/user-service";
 import {Table, TableModule} from "primeng/table";
 import {CurrencyPipe, NgForOf, NgIf} from "@angular/common";
 import {RatingModule} from "primeng/rating";
@@ -55,7 +55,7 @@ export class MemberListComponent implements OnInit{
   isDeletionDialogOpen = false;
   isInscriptionDialogOpen = false;
 
-  constructor(private memberService: MemberService,
+  constructor(private memberService: UserService,
               private messageService: MessageService) {}
 
   ngOnInit() {
@@ -73,7 +73,7 @@ export class MemberListComponent implements OnInit{
   }
 
   loadMembers() {
-    const groupId = sessionStorage.getItem('currentGroupId');
+    /*const groupId = sessionStorage.getItem('currentGroupId');
     if(groupId != null) {
       this.memberService.getMembers(groupId).subscribe((members) => {
         for(let rawMember of members){
@@ -83,7 +83,7 @@ export class MemberListComponent implements OnInit{
         this.loading = false;
         this.dataTable?.reset();
       });
-    }
+    }*/
   }
 
   onSort(event: any) {

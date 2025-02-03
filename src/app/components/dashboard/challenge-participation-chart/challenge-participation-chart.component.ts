@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ChartModule} from "primeng/chart";
 import {DropdownModule} from "primeng/dropdown";
 import {Period} from "../dashboard.component";
@@ -17,7 +17,9 @@ import {FormsModule} from "@angular/forms";
   templateUrl: './challenge-participation-chart.component.html',
   styleUrl: './challenge-participation-chart.component.scss'
 })
-export class ChallengeParticipationChartComponent {
+export class ChallengeParticipationChartComponent implements OnInit {
+
+  @Output() nbParticipantsByChallenge = new EventEmitter<number>();
 
   data: any;
   options: any;
@@ -87,6 +89,16 @@ export class ChallengeParticipationChartComponent {
           }
         ]
       };
+
+      this.statsService.getActiveUsers(this.statsService.computeStartDate(this.selectedPeriod.name),
+        new Date().toISOString().split("T")[0],
+        this.selectedPeriod.name === '3 mois' ? 'WEEK' : 'DAY',
+        null,
+        null,
+        'CREATE_CHALLENGE'
+      ).subscribe((creationStats) => {
+        this.nbParticipantsByChallenge.emit(stats.totalActiveUsers / creationStats.totalActiveUsers);
+      });
     });
   }
 }

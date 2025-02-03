@@ -5,13 +5,14 @@ import {environment} from "../../environments/environment";
 import {ApiUrls} from "../shared/api-url";
 import {ActiveUsersResponse} from "../models/activeUserResponse.model";
 import {AuthService} from "./auth.service";
+import {UtilsService} from "./utils-service";
 
 @Injectable({ providedIn: 'root' })
 
 export class StatsService {
 
   constructor(private http: HttpClient,
-              private authService: AuthService) {
+              private utils: UtilsService) {
   }
 
   computeStartDate(period: string) {
@@ -59,7 +60,7 @@ export class StatsService {
   ): Observable<ActiveUsersResponse> {
     const getActiveUsersUrl = environment.apiHost + ApiUrls.stats.getActiveUsers;
 
-    const token = this.authService.getToken();
+    const token = this.utils.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     let params = new HttpParams()

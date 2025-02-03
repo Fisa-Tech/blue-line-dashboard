@@ -1,6 +1,7 @@
 import {inject, Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot} from "@angular/router";
 import {AuthService} from "./auth.service";
+import {UtilsService} from "./utils-service";
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +9,10 @@ import {AuthService} from "./auth.service";
 class PermissionService {
 
   constructor(private router: Router,
-              private auth: AuthService) { }
+              private utils: UtilsService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const token = this.auth.getToken();
+    const token = this.utils.getToken();
 
     if (token) {
       const decodedToken = this.decodeToken(token);
