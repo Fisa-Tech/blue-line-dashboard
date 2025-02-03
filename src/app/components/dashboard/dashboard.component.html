@@ -3,27 +3,42 @@
 
   <div class="components-container">
     <div class="chart-container">
-      <div class="chart-header">
-        <label class="chart-title">NOUVEAUX UTILISATEURS</label>
-        <p-dropdown
-          size="extra-small"
-          [options]="periodOptions"
-          [(ngModel)]="selectedPeriod"
-          optionLabel="name"
-          [scrollHeight]="'100px'"
-        />
-      </div>
-      <label class="chart-value">{{nbTotalUsers}}</label>
-      <p-chart type="line" [data]="data" [options]="options" [height]="'100px'" [width]="'100%'" />
+      <app-new-users-chart></app-new-users-chart>
     </div>
     <div class="chart-container">
-      <p-chart type="line" [data]="data" [options]="options" [height]="'100px'" [width]="'100%'" />
+      <app-active-users-chart (nbActions)="handleNbActionsComputed($event)"></app-active-users-chart>
     </div>
     <div class="chart-container">
-      <p-chart type="line" [data]="data" [options]="options" [height]="'100px'" [width]="'100%'" />
+      <app-challenge-participation-chart></app-challenge-participation-chart>
     </div>
     <div class="chart-container">
-      <p-chart type="line" [data]="data" [options]="options" [height]="'100px'" [width]="'100%'" />
+      <app-event-participation-chart></app-event-participation-chart>
+    </div>
+  </div>
+  <div class="components-container">
+    <div class="chart-container">
+      <span class="icon-label">
+        <i class="pi pi-users" style="font-size: 1.5rem; color: #3170F9"></i>
+        <span class="important-text">{{ nbUsers }} utilisateurs au total</span>
+      </span>
+    </div>
+    <div class="chart-container">
+      <span class="icon-label">
+        <i class="pi pi-users" style="font-size: 1.5rem; color: #3170F9"></i>
+        <span class="important-text">{{ nbActions }} interactions</span>
+      </span>
+    </div>
+    <div class="chart-container">
+      <span class="icon-label">
+        <i class="pi pi-users" style="font-size: 1.5rem; color: #3170F9"></i>
+        <span class="important-text">{{ challengeAverageParticipants }} particpants / défi</span>
+      </span>
+    </div>
+    <div class="chart-container">
+      <span class="icon-label">
+        <i class="pi pi-users" style="font-size: 1.5rem; color: #3170F9"></i>
+        <span class="important-text">{{ eventAverageParticipants }} participants / événement</span>
+      </span>
     </div>
   </div>
 </div>

@@ -21,12 +21,6 @@
   transition: transform 0.3s ease;
 }
 
-.chart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .chart-container{
   background: #F6F8FC;
   padding: 1rem;
@@ -38,30 +32,13 @@
   border: 1px solid #e0e0e0;
 }
 
-.chart-title {
-  font-size: 12px;
-  font-weight: 700;
-  color: #787474;
-  margin: 0;
+.icon-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
-.chart-value {
-  font-size: 20px;
-  font-weight: 800;
+.important-text {
+  font-size: 14px;
+  font-weight: 500;
 }
-
-::ng-deep .p-dropdown {
-  border: none !important;
-  box-shadow: none !important;
-  background: #F6F8FC;
-}
-
-::ng-deep .p-dropdown .p-dropdown-label {
-  font-size: 12px;
-}
-
-::ng-deep .p-dropdown-item {
-  font-size: 12px;
-  padding: 5px;
-}
-

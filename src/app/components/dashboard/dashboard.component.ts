@@ -1,12 +1,17 @@
-import {Component, LOCALE_ID, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ChartModule} from "primeng/chart";
 import {MenuComponent} from "../menu/menu.component";
 import {DropdownModule} from "primeng/dropdown";
 import {FormsModule} from "@angular/forms";
-import {StatsService} from "../../services/stats.service";
 import {DatePipe} from "@angular/common";
+import {ActiveUsersChartComponent} from "./active-users-chart/active-users-chart.component";
+import {NewUsersChartComponent} from "./new-users-chart/new-users-chart.component";
+import {
+  ChallengeParticipationChartComponent
+} from "./challenge-participation-chart/challenge-participation-chart.component";
+import {EventParticipationChartComponent} from "./event-participation-chart/event-participation-chart.component";
 
-interface Period {
+export interface Period {
   name: string;
   value: string;
 }
@@ -18,78 +23,24 @@ interface Period {
     ChartModule,
     MenuComponent,
     DropdownModule,
-    FormsModule
+    FormsModule,
+    ActiveUsersChartComponent,
+    NewUsersChartComponent,
+    ChallengeParticipationChartComponent,
+    EventParticipationChartComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   providers: [DatePipe]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 
-  data: any;
-  options: any;
-  periodOptions: Period[] | undefined;
+  nbActions = 0;
+  nbUsers = 0;
+  challengeAverageParticipants = 0;
+  eventAverageParticipants = 0;
 
-  selectedPeriod: Period = { name: '7 jours', value: '7d' };
-  nbTotalUsers: string | undefined;
-
-  constructor(private statsService: StatsService,
-              private datePipe: DatePipe) { }
-
-  ngOnInit() {
-    const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
-    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
-    this.periodOptions = [
-      { name: '7 jours', value: '7d' },
-      { name: '1 mois', value: '1m' },
-      { name: '3 mois', value: '3m' },
-    ];
-
-    this.statsService.getActiveUsers(this.statsService.computeStartDate(this.selectedPeriod.name),
-      new Date().toISOString().split("T")[0],
-      'DAY',
-      null,
-      null,
-      null
-      ).subscribe((stats) => {
-        this.nbTotalUsers = stats.totalActiveUsers.toString();
-      this.data = {
-        labels: Object.keys(stats.activeUsersPerPeriod).map(label => {
-          const formattedDate = this.datePipe.transform(label, 'dd MMM yyyy');
-          return formattedDate ? formattedDate : label;
-        }),
-        datasets: [
-          {
-            data: Object.values(stats.activeUsersPerPeriod),
-            fill: true,
-            borderColor: "#3170F9",
-            tension: 0.4,
-            backgroundColor: "#809ee0"
-          }
-        ]
-      };
-    });
-
-    this.options = {
-      responsive: true,
-      maintainAspectRatio: false,
-      aspectRatio: 0.6,
-      plugins: {
-        legend: {
-          display: false
-        }
-      },
-      scales: {
-        x: {
-          display: false
-        },
-        y: {
-          display: false
-        }
-      }
-    };
+  handleNbActionsComputed(nbActions: number) {
+    this.nbActions = nbActions;
   }
 }

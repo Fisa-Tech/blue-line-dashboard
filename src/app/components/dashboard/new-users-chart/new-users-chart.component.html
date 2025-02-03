@@ -1,0 +1,13 @@
+<div class="chart-header">
+  <label class="chart-title">UTILISATEURS ACTIFS</label>
+  <p-dropdown
+    size="extra-small"
+    [options]="periodOptions"
+    [(ngModel)]="selectedPeriod"
+    optionLabel="name"
+    [scrollHeight]="'100px'"
+    (onChange)="loadData()"
+  />
+</div>
+<label class="chart-value">{{nbTotalUsers}}</label>
+<p-chart type="line" [data]="data" [options]="options" [height]="'100px'" [width]="'100%'" />
