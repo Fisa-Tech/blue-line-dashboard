@@ -1,5 +1,5 @@
 <div class="chart-header">
-  <label class="chart-title">PARTICIPATION EVENEMENTS</label>
+  <label class="chart-title">RESUME DE L'ACTIVITE PAR GENRE</label>
   <p-dropdown
     size="extra-small"
     [options]="periodOptions"
@@ -9,5 +9,4 @@
     (onChange)="loadData()"
   />
 </div>
-<label class="chart-value">{{nbTotalUsers}}</label>
-<p-chart type="line" [data]="data" [options]="options" [height]="'80px'" [width]="'100%'" />
+<p-chart type="bar" [data]="data" [options]="options" [height]="'300px'" [width]="'100%'" />

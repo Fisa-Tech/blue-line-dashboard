@@ -1,25 +1,23 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ChartModule} from "primeng/chart";
 import {DropdownModule} from "primeng/dropdown";
+import {FormsModule} from "@angular/forms";
 import {Period} from "../dashboard.component";
 import {StatsService} from "../../../services/stats.service";
 import {DatePipe} from "@angular/common";
-import {FormsModule} from "@angular/forms";
 
 @Component({
-  selector: 'app-event-participation-chart',
+  selector: 'app-new-events-chart',
   standalone: true,
   imports: [
     ChartModule,
     DropdownModule,
     FormsModule
   ],
-  templateUrl: './event-participation-chart.component.html',
-  styleUrl: './event-participation-chart.component.scss'
+  templateUrl: './new-events-chart.component.html',
+  styleUrl: './new-events-chart.component.scss'
 })
-export class EventParticipationChartComponent implements OnInit {
-
-  @Output() nbParticipantsByEvent = new EventEmitter<number>();
+export class NewEventsChartComponent implements OnInit {
 
   data: any;
   options: any;
@@ -32,7 +30,6 @@ export class EventParticipationChartComponent implements OnInit {
               private datePipe: DatePipe) { }
 
   ngOnInit() {
-    const documentStyle = getComputedStyle(document.documentElement);
 
     this.periodOptions = [
       { name: '7 jours', value: '7d' },
@@ -68,7 +65,7 @@ export class EventParticipationChartComponent implements OnInit {
       this.selectedPeriod.name === '3 mois' ? 'WEEK' : 'DAY',
       null,
       null,
-      'JOIN_EVENT'
+      'REGISTER'
     ).subscribe((stats) => {
       this.nbTotalUsers = stats.totalActiveUsers.toString();
       this.data = {
@@ -79,23 +76,13 @@ export class EventParticipationChartComponent implements OnInit {
         datasets: [
           {
             data: Object.values(stats.activeUsersPerPeriod),
-            fill: false,
-            borderColor: "#3170F9",
+            fill: true,
+            borderColor: "#11B5AE",
             tension: 0.4,
-            backgroundColor: "#809ee0"
+            backgroundColor: "#11B5AE"
           }
         ]
       };
-
-      this.statsService.getActiveUsers(this.statsService.computeStartDate(this.selectedPeriod.name),
-        new Date().toISOString().split("T")[0],
-        this.selectedPeriod.name === '3 mois' ? 'WEEK' : 'DAY',
-        null,
-        null,
-        'CREATE_EVENT'
-      ).subscribe((creationStats) => {
-        this.nbParticipantsByEvent.emit(stats.totalActiveUsers / creationStats.totalActiveUsers);
-      });
     });
   }
 }

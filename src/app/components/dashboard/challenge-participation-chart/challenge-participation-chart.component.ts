@@ -33,9 +33,6 @@ export class ChallengeParticipationChartComponent implements OnInit {
 
   ngOnInit() {
     const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
-    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
     this.periodOptions = [
       { name: '7 jours', value: '7d' },

@@ -5,7 +5,6 @@ import {Period} from "../dashboard.component";
 import {StatsService} from "../../../services/stats.service";
 import {DatePipe} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {UtilsService} from "../../../services/utils-service";
 
 @Component({
   selector: 'app-new-users-chart',
@@ -28,14 +27,10 @@ export class NewUsersChartComponent implements OnInit {
   nbTotalUsers: string | undefined;
 
   constructor(private statsService: StatsService,
-              private datePipe: DatePipe,
-              private utils: UtilsService) { }
+              private datePipe: DatePipe) { }
 
   ngOnInit() {
     const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
-    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
     this.periodOptions = [
       { name: '7 jours', value: '7d' },

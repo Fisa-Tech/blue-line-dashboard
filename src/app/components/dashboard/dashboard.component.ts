@@ -11,6 +11,10 @@ import {
 } from "./challenge-participation-chart/challenge-participation-chart.component";
 import {EventParticipationChartComponent} from "./event-participation-chart/event-participation-chart.component";
 import {UserService} from "../../services/user-service";
+import {ActivityByStatusChartComponent} from "./activity-by-status-chart/activity-by-status-chart.component";
+import {ActivityByGenderChartComponent} from "./activity-by-gender-chart/activity-by-gender-chart.component";
+import {NewChallengesChartComponent} from "./new-challenges-chart/new-challenges-chart.component";
+import {NewEventsChartComponent} from "./new-events-chart/new-events-chart.component";
 
 export interface Period {
   name: string;
@@ -28,7 +32,11 @@ export interface Period {
     ActiveUsersChartComponent,
     NewUsersChartComponent,
     ChallengeParticipationChartComponent,
-    EventParticipationChartComponent
+    EventParticipationChartComponent,
+    ActivityByStatusChartComponent,
+    ActivityByGenderChartComponent,
+    NewChallengesChartComponent,
+    NewEventsChartComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
