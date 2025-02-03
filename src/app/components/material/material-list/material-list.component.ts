@@ -4,7 +4,7 @@ import {AutoFocusModule} from "primeng/autofocus";
 import {ButtonModule} from "primeng/button";
 import {DialogModule} from "primeng/dialog";
 import {EditMemberComponent} from "../../member/edit-member/edit-member.component";
-import {NgForOf, NgIf, NgStyle} from "@angular/common";
+import {DatePipe, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {RemoveMemberComponent} from "../../member/remove-member/remove-member.component";
 import {RippleModule} from "primeng/ripple";
 import {MessageService, SharedModule} from "primeng/api";
@@ -42,7 +42,8 @@ import {UtilsService} from "../../../services/utils-service";
     RemoveMaterialComponent,
     AddMaterialComponent,
     OrderMaterialComponent,
-    ToastModule
+    ToastModule,
+    DatePipe
   ],
   providers: [MessageService],
   templateUrl: './material-list.component.html',
@@ -126,7 +127,6 @@ export class MaterialListComponent implements OnInit{
   }
 
   submitCreationForm() {
-    console.log(this.addMaterialForm);
     if(this.addMaterialForm?.submit()) {
       this.isAddDialogOpen = false;
     }

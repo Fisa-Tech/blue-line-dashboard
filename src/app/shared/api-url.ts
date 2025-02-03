@@ -14,6 +14,10 @@ export const ApiUrls = {
     getAll: '/events',
     create: '/events',
   },
+  challenge: {
+    getAll: '/challenges',
+    create: '/challenges',
+  },
   command: {
     create: '/commandes/passerCommande'
   },

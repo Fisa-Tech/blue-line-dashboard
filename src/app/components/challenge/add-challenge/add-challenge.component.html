@@ -1,0 +1,37 @@
+<div class="page flex justify-content-center" style="margin-top: 0.5rem">
+  <form [formGroup]="addChallengeForm" (ngSubmit)="submit()">
+    <span class="p-float-label custom-margin">
+      <input pInputText id="name" required formControlName="name">
+      <label for="name">Nom du challenge</label>
+    </span>
+    <span class="p-float-label custom-margin">
+      <input pInputText id="description" required formControlName="description">
+      <label for="description">Description</label>
+    </span>
+    <span class="p-float-label custom-margin">
+      <p-selectButton
+        id="type"
+        [options]="types"
+        optionLabel="name"
+        optionValue="value"
+        formControlName="type"/>
+    </span>
+    <span class="p-float-label custom-margin" *ngIf="this.addChallengeForm.get('type')?.value === 'TIME'">
+      <p-inputNumber  id="timeGoal"  formControlName="goal"></p-inputNumber>
+      <label for="timeGoal">Objectif de temps</label>
+    </span>
+    <span class="p-float-label custom-margin" *ngIf="this.addChallengeForm.get('type')?.value === 'DISTANCE'">
+      <p-inputNumber  id="goal" formControlName="goal"></p-inputNumber>
+      <label for="goal">Objectif de distance</label>
+    </span>
+    <span class="p-float-label custom-margin">
+      <p-calendar [required]="true" formControlName="startDate" />
+      <label id="startDate" for="startDate">Date de début</label>
+    </span>
+    <span class="p-float-label custom-margin">
+      <p-calendar id="endDate" [required]="true" formControlName="endDate" />
+      <label for="endDate">Date de fin</label>
+    </span>
+
+  </form>
+</div>

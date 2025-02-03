@@ -1,18 +1,18 @@
-<app-menu [tabSelected]="1"></app-menu>
+<app-menu [tabSelected]="2"></app-menu>
 <div class="card">
   <p-toast></p-toast>
   <p-table
     #dt
-    [value]="events"
+    [value]="challenges"
     [rowHover]="false"
     [rows]="10"
     [columns]="columns"
     [showCurrentPageReport]="true"
     [rowsPerPageOptions]="[10, 25, 50]"
-    [globalFilterFields]="['name', 'startDate', 'endDate', 'description', 'location']"
+    [globalFilterFields]="['name', 'startDate', 'endDate', 'description', 'type']"
     [loading]="loading"
     [paginator]="true"
-    currentPageReportTemplate="Evenements {first} à {last} sur {totalRecords}"
+    currentPageReportTemplate="Défis {first} à {last} sur {totalRecords}"
     [filterDelay]="0"
     [scrollable]="true"
     scrollHeight="62vh"
@@ -21,7 +21,7 @@
     <ng-template pTemplate="caption">
       <div class="flex" style="align-items: center">
         <span style="margin-left: 1rem;">
-            <button (click)="resetEvents()"
+            <button (click)="resetChallenges()"
                     [ngStyle]="{ 'cursor':  'pointer',
                     'background': 'none', 'border': 'none', 'vertical-align': 'middle' }">
               <span class="pi pi-undo" style="font-size: 1.5rem" ></span>
@@ -80,34 +80,34 @@
         <th></th>-->
     </ng-template>
 
-    <ng-template pTemplate="body" let-event>
-      <tr class="p-selectable-row" [pSelectableRow]="event">
+    <ng-template pTemplate="body" let-challenge>
+      <tr class="p-selectable-row" [pSelectableRow]="challenge">
         <td pFrozenColumn>
           <span class="p-column-title">Nom</span>
-          {{ event.name }}
+          {{ challenge.name }}
         </td>
         <td>
-          <span class="p-column-title">Localisation</span>
-          {{ event.location }}
+          <span class="p-column-title">Description</span>
+          {{ challenge.description }}
         </td>
         <td >
           <span class="p-column-title">Date de début</span>
-          {{ event.startDate | date}}
+          {{ challenge.startDate | date}}
         </td>
         <td >
           <span class="p-column-title">Date de fin</span>
-          {{ event.endDate | date}}
+          {{ challenge.endDate | date}}
         </td>
         <td >
-          <span class="p-column-title">Description</span>
-          {{ event.description }}
+          <span class="p-column-title">Type de challenge</span>
+          {{ challenge.type }}
         </td>
         <td>
           <div class="button-container">
             <p-button pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" [rounded]="true"
-                      (click)="openEditionDialog(event)"></p-button>
+                      (click)="openEditionDialog(challenge)"></p-button>
             <p-button  icon="pi pi-trash" class="p-button-rounded p-button-warning mr-2" [rounded]="true"
-                       (click)="openDeletionDialog(event)"></p-button>
+                       (click)="openDeletionDialog(challenge)"></p-button>
           </div>
         </td>
       </tr>
@@ -124,10 +124,10 @@
 <p-dialog header="Header" [(visible)]="isAddDialogOpen" [modal]="true" [style]="{ width: '50rem' }"
           [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false">
   <ng-template pTemplate="header">
-    <h3>Créer un événement</h3>
+    <h3>Créer un challenge</h3>
   </ng-template>
   <div class="center-content">
-    <app-add-material (eventMaterialAdded)="validMaterial($event)" #addMaterialForm> </app-add-material>
+    <app-add-challenge (eventChallengeAdded)="validChallenge($event)" #addChallengeForm> </app-add-challenge>
   </div>
   <ng-template pTemplate="footer">
     <p-button icon="pi pi-times" (click)="closeAddDialog()" label="Annuler" pAutoFocus [autofocus]="true"></p-button>
@@ -141,7 +141,7 @@
     <h3>Modification</h3>
   </ng-template>
   <div class="center-content">
-    <app-edit-material [event]="selectedEvent"></app-edit-material>
+    <app-edit-material [event]="selectedChallenge"></app-edit-material>
   </div>
   <ng-template pTemplate="footer">
     <p-button icon="pi pi-times" (click)="closeEditionDialog()" label="Annuler" pAutoFocus [autofocus]="true"></p-button>
@@ -156,7 +156,7 @@
     <h3>Suppression</h3>
   </ng-template>
   <div class="center-content">
-    <app-remove-material [event]="selectedEvent"></app-remove-material>
+    <app-remove-material [event]="selectedChallenge"></app-remove-material>
   </div>
   <ng-template pTemplate="footer">
     <p-button icon="pi pi-times" (click)="closeDeletionDialog()" label="Annuler" pAutoFocus [autofocus]="true"></p-button>

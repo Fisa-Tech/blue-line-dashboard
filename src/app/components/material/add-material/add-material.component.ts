@@ -44,14 +44,12 @@ export class AddMaterialComponent {
               private  eventService: EventService) { };
 
   submit() : boolean {
-    console.log(this.addMaterialForm);
     if(this.addMaterialForm && this.addMaterialForm.valid) {
       const name = this.addMaterialForm.get('name')?.value;
       const location = this.addMaterialForm.get('location')?.value;
       const startDate = this.addMaterialForm.get('startDate')?.value;
       const endDate = this.addMaterialForm.get('endDate')?.value;
       const description = this.addMaterialForm.get('description')?.value;
-      console.log(name, location, startDate, endDate, description);
       if(name && location && startDate && endDate && description) {
         this.eventService.addEvent({
           name: name,

@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Material} from "../../../models/material.model";
+import {MyEvent} from "../../../models/myEvent.model";
 
 @Component({
   selector: 'app-edit-material',
@@ -10,5 +11,5 @@ import {Material} from "../../../models/material.model";
 })
 export class EditMaterialComponent {
 
-  @Input() material: Material | undefined;
+  @Input() event: MyEvent | undefined;
 }

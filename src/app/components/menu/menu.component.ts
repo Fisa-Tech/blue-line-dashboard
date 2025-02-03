@@ -105,11 +105,11 @@ export class MenuComponent implements OnInit {
   }
 
   openChallengeList() {
-    this.router.navigateByUrl('challenge-list')
+    this.router.navigateByUrl('challenges');
   }
 
   openMaterialList() {
-    this.router.navigateByUrl('material-list');
+    this.router.navigateByUrl('events');
   }
 
   openDashboard() {
