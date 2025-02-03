@@ -1,0 +1,32 @@
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chart-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #787474;
+  margin: 0;
+}
+
+.chart-value {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+::ng-deep .p-dropdown {
+  border: none !important;
+  box-shadow: none !important;
+  background: #F6F8FC;
+}
+
+::ng-deep .p-dropdown .p-dropdown-label {
+  font-size: 12px;
+}
+
+::ng-deep .p-dropdown-item {
+  font-size: 12px;
+  padding: 5px;
+}

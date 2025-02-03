@@ -15,6 +15,8 @@ import {ActivityByStatusChartComponent} from "./activity-by-status-chart/activit
 import {ActivityByGenderChartComponent} from "./activity-by-gender-chart/activity-by-gender-chart.component";
 import {NewChallengesChartComponent} from "./new-challenges-chart/new-challenges-chart.component";
 import {NewEventsChartComponent} from "./new-events-chart/new-events-chart.component";
+import {StatusChartComponent} from "./status-chart/status-chart.component";
+import {GenderChartComponent} from "./gender-chart/gender-chart.component";
 
 export interface Period {
   name: string;
@@ -36,7 +38,9 @@ export interface Period {
     ActivityByStatusChartComponent,
     ActivityByGenderChartComponent,
     NewChallengesChartComponent,
-    NewEventsChartComponent
+    NewEventsChartComponent,
+    StatusChartComponent,
+    GenderChartComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',

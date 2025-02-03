@@ -5,6 +5,7 @@ import {environment} from "../../environments/environment";
 import {ApiUrls} from "../shared/api-url";
 import {Member} from "../models/member.model";
 import {UtilsService} from "./utils-service";
+import {User} from "../models/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,7 @@ export class UserService {
   constructor(private http: HttpClient,
               private utils: UtilsService) { }
 
-  /*getMembers(groupId: string): Observable<any> {
-    const getAllMembersUrl = environment.apiHost + ApiUrls.users.getAll;
-    let params = new HttpParams().set('groupId', groupId);
-    return this.
-    http.get<any>(getAllMembersUrl, {params: params});
-  }*/
-
-  getUsers(): Observable<any> {
+  getUsers(): Observable<User[]> {
     const token = this.utils.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
