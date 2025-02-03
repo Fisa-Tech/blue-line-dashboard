@@ -10,13 +10,15 @@ import {RippleModule} from "primeng/ripple";
 import {MessageService, SharedModule} from "primeng/api";
 import {Table, TableModule} from "primeng/table";
 import {Material} from "../../../models/material.model";
-import {MaterialService} from "../../../services/material.service";
+import {EventService} from "../../../services/event.service";
 import {BadgeModule} from "primeng/badge";
 import {EditMaterialComponent} from "../edit-material/edit-material.component";
 import {RemoveMaterialComponent} from "../remove-material/remove-material.component";
 import {AddMaterialComponent} from "../add-material/add-material.component";
 import {OrderMaterialComponent} from "../order-material/order-material.component";
 import { ToastModule } from 'primeng/toast';
+import {MyEvent, MyEventResponse} from "../../../models/myEvent.model";
+import {UtilsService} from "../../../services/utils-service";
 
 
 @Component({
@@ -51,65 +53,48 @@ export class MaterialListComponent implements OnInit{
   @ViewChild('dt') dataTable?: Table
   @ViewChild('addMaterialForm', {read: AddMaterialComponent}) addMaterialForm?: AddMaterialComponent;
   @ViewChild('orderMaterialComponent', {read: OrderMaterialComponent}) orderMaterialComponent?: OrderMaterialComponent;
-  materials : Material[] = [];
-  selectedMaterialToOrder: Material[] = [];
+  events : MyEvent[] = [];
   loading: boolean = true;
   columns: any[] = []
-  selectedMaterial?: Material;
+  selectedEvent?: MyEvent;
   isEditionDialogOpen = false;
   isDeletionDialogOpen = false;
   isShopDialogOpen = false;
   isAddDialogOpen = false;
-  activeMember = false;
+  startDateFilter: string | null = null;
+  endDateFilter: string | null = null;
+  locationFilter: string | null = null;
+  descriptionFilter: string | null = null;
+  nameFilter: string | null = null;
 
-  groupId : number = 1;
-
-  constructor(private materialService: MaterialService,
-              private messageService: MessageService) {}
+  constructor(private eventService: EventService,
+              private messageService: MessageService,
+              private utilsService: UtilsService) {}
 
   ngOnInit() {
-    this.activeMember = sessionStorage.getItem('currentMemberType') === 'Actif';
-    if(this.activeMember) {
-      this.columns = [
-        { field: 'serial', header: 'Numéro de série', pSortableColumn: 'serial', frozen: true },
-        { field: 'brand', header: 'Marque', pSortableColumn: 'brand'},
-        { field: 'model', header: 'Modèle', pSortableColumn: 'model'},
-        { field: 'type', header: 'Type', pSortableColumn: 'type'},
-        { field: 'price', header: 'Prix', pSortableColumn: 'price'},
-        { field: 'buttons', header: '', visible: true}
-      ];
-    } else {
-      this.columns = [
-        { field: 'serial', header: 'Numéro de série', pSortableColumn: 'serial', frozen: true },
-        { field: 'brand', header: 'Marque', pSortableColumn: 'brand'},
-        { field: 'model', header: 'Modèle', pSortableColumn: 'model'},
-        { field: 'type', header: 'Type', pSortableColumn: 'type'},
-        { field: 'price', header: 'Prix', pSortableColumn: 'price'},
-      ];
-    }
-    this.loadMaterial();
+    this.columns = [
+      { field: 'name', header: 'Nom', pSortableColumn: 'name', frozen: true },
+      { field: 'location', header: 'Localisation', pSortableColumn: 'location'},
+      { field: 'startDate', header: 'Date de début', pSortableColumn: 'startDate'},
+      { field: 'endDate', header: 'Date de fin', pSortableColumn: 'endDate'},
+      { field: 'description', header: 'Description', pSortableColumn: 'description'},
+      { field: 'buttons', header: '', visible: true}
+    ];
+    this.loadEvents();
   }
 
-  loadMaterial() {
-    const groupId = sessionStorage.getItem('currentGroupId');
-    if(groupId != null) {
-      this.materials = [];
-      this.materialService.getMaterials(groupId).subscribe((materials) => {
-        for(let rawMaterial of materials){
-          this.materials.push(this.parseMaterial(rawMaterial));
-        }
-        this.selectedMaterialToOrder = [];
-        this.loading = false;
-        this.dataTable?.reset();
-      });
-    }
+  loadEvents() {
+    this.events = [];
+    this.eventService.getEvents().subscribe(events => {
+      for(let event of events) {
+        this.events.push(this.parseEvent(event));
+      }
+      this.loading = false;
+      this.dataTable?.reset();
+    });
+
   }
 
-  openShopDialog() {
-    if(this.selectedMaterialToOrder.length > 0) {
-      this.isShopDialogOpen = true;
-    }
-  }
 
   closeShopDialog() {
     this.isShopDialogOpen = false;
@@ -121,13 +106,13 @@ export class MaterialListComponent implements OnInit{
   }
 
   validOrder() {
-    this.loadMaterial();
+    this.loadEvents();
     this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Ta commande est passée' });
   }
 
-  validMaterial(material: Material) {
-    this.loadMaterial();
-    const message = 'Nouveau produit: ' + material.brand + ' ' + material.model + ' ajouté';
+  validMaterial(event: MyEvent) {
+    this.loadEvents();
+    const message = 'Nouvel événement: ' + event.name + ' créé';
     this.messageService.add({ severity: 'success', summary: 'Succès', detail: message });
   }
 
@@ -141,13 +126,14 @@ export class MaterialListComponent implements OnInit{
   }
 
   submitCreationForm() {
+    console.log(this.addMaterialForm);
     if(this.addMaterialForm?.submit()) {
       this.isAddDialogOpen = false;
     }
   }
 
-  openEditionDialog(material: Material) {
-    this.selectedMaterial = material;
+  openEditionDialog(event: MyEvent) {
+    this.selectedEvent = event;
     this.isEditionDialogOpen = true;
   }
 
@@ -155,8 +141,8 @@ export class MaterialListComponent implements OnInit{
     this.isEditionDialogOpen = false;
   }
 
-  openDeletionDialog(material: Material) {
-    this.selectedMaterial = material;
+  openDeletionDialog(event: MyEvent) {
+    this.selectedEvent = event;
     this.isDeletionDialogOpen = true;
   }
 
@@ -164,24 +150,39 @@ export class MaterialListComponent implements OnInit{
     this.isDeletionDialogOpen = false;
   }
 
-  computeTotalPrice (): number {
-    let totalPrice = 0;
-    this.selectedMaterialToOrder.forEach((product) => {
-      if(product.price) {
-        totalPrice += product.price;
-      }
-    });
-    return totalPrice;
+  onFilter(event: any, filterType: string) {
+    const value = event.target.value === '' ? null : event.target.value;
+    if(filterType === 'name') {
+      this.nameFilter = value;
+    } else if(filterType === 'location') {
+      this.locationFilter = value;
+    } else if(filterType === 'description') {
+      this.descriptionFilter = value;
+    } else if(filterType === 'startDate') {
+      this.startDateFilter = value;
+    } else if(filterType === 'endDate') {
+      this.endDateFilter = value;
+    }
   }
-;
-  parseMaterial(rawMaterial: any): Material {
+
+  resetEvents() {
+    this.endDateFilter = null;
+    this.startDateFilter = null;
+    this.nameFilter = null;
+    this.locationFilter = null;
+    this.descriptionFilter = null;
+    this.dataTable?.reset();
+    this.loadEvents();
+  }
+
+  parseEvent(event: MyEventResponse): MyEvent {
     return {
-      id: rawMaterial.id,
-      serial: rawMaterial.numeroDeSerie,
-      brand: rawMaterial.marque,
-      type: rawMaterial.type,
-      model: rawMaterial.modele,
-      price: rawMaterial.prix
+      id: event.id,
+      name: event.name,
+      description: event.description,
+      startDate: this.utilsService.convertDateFormat(event.startDate!),
+      endDate: this.utilsService.convertDateFormat(event.endDate!),
+      location: event.location,
     }
   }
 

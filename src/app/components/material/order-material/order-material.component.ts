@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Material} from "../../../models/material.model";
 import {NgForOf} from "@angular/common";
-import {MaterialService} from "../../../services/material.service";
+import {EventService} from "../../../services/event.service";
 import {Member} from "../../../models/member.model";
 import {UserService} from "../../../services/user-service";
 
@@ -21,7 +21,7 @@ export class OrderMaterialComponent implements OnInit{
   @Output() eventOrdered = new EventEmitter<void>();
   activeMember!: Member;
 
-  constructor(private materialService: MaterialService,
+  constructor(private materialService: EventService,
               private memberService: UserService) {
   }
 

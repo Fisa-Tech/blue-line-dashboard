@@ -6,37 +6,49 @@ import {ApiUrls} from "../shared/api-url";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {UtilsService} from "./utils-service";
 import {Order} from "../models/order.model";
+import {MyEvent, MyEventResponse} from "../models/myEvent.model";
 
 @Injectable({ providedIn: 'root' })
 
-export class MaterialService {
+export class EventService {
 
   constructor(private http: HttpClient,
               private utils: UtilsService) {
   }
 
-  addMaterial(material: Material) : Observable<any> {
-    const addMaterialUrl = environment.apiHost + ApiUrls.material.create;
+  addEvent(event: MyEvent): Observable<any> {
+    const addEventUrl = environment.apiHost + ApiUrls.event.create;
+    const token = this.utils.getToken();
+
+    // Convertir startDate et endDate en format ISO complet
+    const startDateISO = new Date(event.startDate!).toISOString();
+    const endDateISO = new Date(event.endDate!).toISOString();
+
     const body = JSON.stringify({
-      id: this.utils.generateId(12),
-      numeroDeSerie: material.serial,
-      marque: material.brand,
-      modele: material.model,
-      type: material.type,
-      prix: material.price,
-      idGroupe: material.groupId,
-      idCommande: '',
+      name: event.name,
+      location: event.location,
+      status: 'PLANNED',
+      description: event.description,
+      startDate: startDateISO,  // Date convertie en ISO
+      endDate: endDateISO,      // Date convertie en ISO
     });
+
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
     });
-    return this.http.post(addMaterialUrl, body, {headers: headers});
+
+    return this.http.post(addEventUrl, body, { headers: headers });
   }
 
-  getMaterials(groupId: string): Observable<any> {
-    const getAllGroupsUrl = environment.apiHost + ApiUrls.material.getAll;
-    let params = new HttpParams().set('groupId', groupId);
-    return this.http.get<any>(getAllGroupsUrl, {params: params});
+
+
+  getEvents(): Observable<MyEventResponse[]> {
+    const token = this.utils.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    const getAllEventsUrl = environment.apiHost + ApiUrls.event.getAll;
+    return this.http.get<any>(getAllEventsUrl, {headers: headers});
   }
 
   orderMaterial(order: Order): Observable<any> {

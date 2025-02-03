@@ -5,7 +5,7 @@ import { routes } from './app.routes';
 import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HttpClientModule} from "@angular/common/http";
-import {registerLocaleData} from "@angular/common";
+import {DatePipe, registerLocaleData} from "@angular/common";
 import localeFr from '@angular/common/locales/fr';
 
 
@@ -16,6 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     importProvidersFrom([BrowserModule, BrowserAnimationsModule, HttpClientModule]),
-    {provide: LOCALE_ID, useValue: 'fr-FR'}
+    {provide: LOCALE_ID, useValue: 'fr-FR'},
+    {provide: DatePipe, useClass: DatePipe}
   ]
 };

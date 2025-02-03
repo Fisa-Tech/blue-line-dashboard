@@ -7,8 +7,10 @@ import {SharedModule} from "primeng/api";
 import {TooltipModule} from "primeng/tooltip";
 import {regexValidator} from "../../../services/regexValidator.service";
 import {InputNumberModule} from "primeng/inputnumber";
-import {MaterialService} from "../../../services/material.service";
+import {EventService} from "../../../services/event.service";
 import {Material} from "../../../models/material.model";
+import {CalendarModule} from "primeng/calendar";
+import {MyEvent} from "../../../models/myEvent.model";
 
 @Component({
   selector: 'app-add-material',
@@ -20,47 +22,47 @@ import {Material} from "../../../models/material.model";
     ReactiveFormsModule,
     SharedModule,
     TooltipModule,
-    InputNumberModule
+    InputNumberModule,
+    CalendarModule
   ],
   templateUrl: './add-material.component.html',
   styleUrl: './add-material.component.scss'
 })
 export class AddMaterialComponent {
 
-  @Output() eventMaterialAdded = new EventEmitter<Material>();
+  @Output() eventMaterialAdded = new EventEmitter<MyEvent>();
 
   addMaterialForm = this.fb.group({
-    serial: ['', Validators.required, regexValidator(/^([A-Za-zéèàêâûôîùç\s-]{1,50})$/)],
-    brand: ['', Validators.required, regexValidator(/^([A-Za-zéèàêâûôîùç\s-]{1,50})$/)],
-    model: ['', Validators.required, regexValidator(/^([A-Za-zéèàêâûôîùç\s-]{1,50})$/)],
-    type: ['', Validators.required, regexValidator(/^([A-Za-zéèàêâûôîùç\s-]{1,50})$/)],
-    price: [null, Validators.required]
+    name: ['', Validators.required, regexValidator(/^([A-Za-zéèàêâûôîùç\s-]{1,50})$/)],
+    location: ['', Validators.required, regexValidator(/^([A-Za-zéèàêâûôîùç\s-]{1,50})$/)],
+    startDate: ['', Validators.required,],
+    endDate: ['', Validators.required,],
+    description: [null, Validators.required]
   });
 
   constructor(private fb: FormBuilder,
-              private  materialService: MaterialService) { };
+              private  eventService: EventService) { };
 
   submit() : boolean {
+    console.log(this.addMaterialForm);
     if(this.addMaterialForm && this.addMaterialForm.valid) {
-      const serial = this.addMaterialForm.get('serial')?.value;
-      const brand = this.addMaterialForm.get('brand')?.value;
-      const model = this.addMaterialForm.get('model')?.value;
-      const type = this.addMaterialForm.get('type')?.value;
-      const price = this.addMaterialForm.get('price')?.value;
-      const groupId = sessionStorage.getItem('currentGroupId')
-
-      if(serial && brand && model && type && price && groupId) {
-        this.materialService.addMaterial({
-          serial: serial,
-          brand: brand,
-          model: model,
-          type: type,
-          price: price,
-          groupId: groupId
-        }).subscribe( material => {
+      const name = this.addMaterialForm.get('name')?.value;
+      const location = this.addMaterialForm.get('location')?.value;
+      const startDate = this.addMaterialForm.get('startDate')?.value;
+      const endDate = this.addMaterialForm.get('endDate')?.value;
+      const description = this.addMaterialForm.get('description')?.value;
+      console.log(name, location, startDate, endDate, description);
+      if(name && location && startDate && endDate && description) {
+        this.eventService.addEvent({
+          name: name,
+          location: location,
+          startDate: startDate,
+          endDate: endDate,
+          description: description,
+        }).subscribe( event => {
             this.eventMaterialAdded.emit({
-              brand: material.marque,
-              model: material.modele
+              name: event.name,
+              location: event.location
             });
           }
         );

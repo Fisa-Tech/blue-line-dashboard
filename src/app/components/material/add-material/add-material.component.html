@@ -1,24 +1,25 @@
 <div class="page flex justify-content-center" style="margin-top: 0.5rem">
   <form [formGroup]="addMaterialForm" (ngSubmit)="submit()">
     <span class="p-float-label custom-margin">
-      <input pInputText id="serialField" required formControlName="serial">
-      <label for="serialField">Numéro de série</label>
+      <input pInputText id="serialField" required formControlName="name">
+      <label for="serialField">Nom de l'événement</label>
     </span>
     <span class="p-float-label custom-margin">
-      <input pInputText id="brandField" required formControlName="brand">
-      <label for="brandField">Marque</label>
+      <input pInputText id="brandField" required formControlName="location">
+      <label for="brandField">Localisation</label>
     </span>
     <span class="p-float-label custom-margin">
-      <input pInputText id="modelField" required formControlName="model">
-      <label for="modelField">Modèle</label>
+      <input pInputText id="modelField" required formControlName="description">
+      <label for="modelField">Description</label>
     </span>
     <span class="p-float-label custom-margin">
-      <input pInputText id="typeField" required formControlName="type">
-      <label for="typeField">Type</label>
+      <p-calendar [required]="true" formControlName="startDate" />
+      <label for="modelField">Date de début</label>
     </span>
     <span class="p-float-label custom-margin">
-      <p-inputNumber  id="priceField" mode="currency" currency="EUR" locale="fr-FR" formControlName="price"></p-inputNumber>
-      <label for="priceField">Price</label>
+      <p-calendar [required]="true" formControlName="endDate" />
+      <label for="modelField">Date de fin</label>
     </span>
+
   </form>
 </div>

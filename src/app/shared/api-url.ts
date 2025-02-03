@@ -10,9 +10,9 @@ export const ApiUrls = {
     create: '/groupes/creation',
     getOne: (id: string) => `/groupes/${id}`
   },
-  material: {
-    getAll: '/materiels/all',
-    create: '/materiels/ajout'
+  event: {
+    getAll: '/events',
+    create: '/events',
   },
   command: {
     create: '/commandes/passerCommande'

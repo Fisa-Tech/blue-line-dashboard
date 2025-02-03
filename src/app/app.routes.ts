@@ -6,12 +6,14 @@ import {GroupListComponent} from "./components/group/group-list/group-list.compo
 import {MaterialListComponent} from "./components/material/material-list/material-list.component";
 import {AuthGuard} from "./services/permission.service";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
+import {ChallengeComponent} from "./components/challenge/challenge.component";
 
 export const routes: Routes = [
   {path: '', component: DashboardComponent, canActivate: [AuthGuard]},
   {path: 'member-list', component: MemberListComponent, canActivate: [AuthGuard]},
   {path: 'group-list', component: GroupListComponent, canActivate: [AuthGuard]},
   {path: 'material-list', component: MaterialListComponent, canActivate: [AuthGuard]},
+  {path: 'challenge-list', component: ChallengeComponent, canActivate: [AuthGuard]},
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: MyProfileComponent, canActivate: [AuthGuard]},
   {path: 'auth/login', component: ConnexionComponent},

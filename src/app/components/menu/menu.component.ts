@@ -65,7 +65,7 @@ export class MenuComponent implements OnInit {
     this.tabs = [
       { label: 'Tableau de bord', icon: 'pi pi-fw pi-chart-bar', command: () => this.openDashboard() },
       { label: 'Evénements', icon: 'pi pi-fw pi-calendar', command: () => this.openMaterialList() },
-      { label: 'Défis', icon: 'pi pi-fw pi-flag', command: () => this.openMemberList() },
+      { label: 'Défis', icon: 'pi pi-fw pi-flag', command: () => this.openChallengeList() },
     ];
     this.profileMenuItems = [
       {
@@ -104,8 +104,8 @@ export class MenuComponent implements OnInit {
     this.router.navigateByUrl('/auth/login');
   }
 
-  openMemberList() {
-    this.router.navigateByUrl('member-list');
+  openChallengeList() {
+    this.router.navigateByUrl('challenge-list')
   }
 
   openMaterialList() {
