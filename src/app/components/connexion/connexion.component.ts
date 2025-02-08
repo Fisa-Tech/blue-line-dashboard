@@ -29,8 +29,8 @@ import {NgIf} from "@angular/common";
 export class ConnexionComponent {
 
   connexionForm = this.fb.group({
-    email: ['aurelien.dufour257@gmail.com', Validators.required, regexValidator(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)],
-    password: ['password', Validators.required]
+    email: ['', Validators.required, regexValidator(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)],
+    password: ['', Validators.required]
   });
   connexionFailed = false;
 
